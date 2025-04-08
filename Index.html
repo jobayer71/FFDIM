@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Fire Diamond Shop</title>
+  <style>
+    :root {
+      --primary: #e50914;
+      --dark: #121212;
+      --light: #f5f5f5;
+    }body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--light);
+}
+
+header {
+  background: var(--dark);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.form-section, .products-section, .cart-section, .payment-section {
+  display: none;
+}
+
+.form-section.active,
+.products-section.active,
+.cart-section.active,
+.payment-section.active {
+  display: block;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.btn {
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.product {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.product h4 {
+  margin: 0.5rem 0;
+}
+
+.cart {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 10px;
+}
+
+@media(max-width: 600px) {
+  .btn {
+    width: 100%;
+  }
+}
+
+  </style>
+</head>
+<body><header>
+  <h1>Free Fire Diamond Shop</h1>
+</header><div class="container">
+  <div class="form-section active" id="uid-form">
+    <h2>আপনার Free Fire UID দিন</h2>
+    <div class="input-group">
+      <input type="text" id="uid-input" placeholder="উদাহরণ: 123456789">
+    </div>
+    <button class="btn" onclick="submitUID()">Submit</button>
+  </div>  <div class="products-section" id="products">
+    <h2>ডায়মন্ড প্যাকেজ</h2>
+    <div class="products" id="product-list"></div>
+    <button class="btn" onclick="showCart()">কার্ট দেখুন</button>
+  </div>  <div class="cart-section" id="cart">
+    <h2>আপনার কার্ট</h2>
+    <div class="cart" id="cart-items"></div>
+    <button class="btn" onclick="goBack()">পিছনে যান</button>
+  </div>  <div class="payment-section" id="payment">
+    <h2>Buy Now Page</h2>
+    <p><strong>অনুগ্রহ করে আগে পেমেন্ট করুন, তারপর নিচে ফর্ম পূরণ করুন।</strong></p>
+    <p><strong>পেমেন্ট বিকাশ নাম্বার:</strong> 01829262412 <button onclick="copyBkash()">কপি করুন</button></p>
+    <form action="https://formsubmit.co/jrjobayer95@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New Diamond Purchase">
+      <div class="input-group">
+        <label>আপনার UID</label>
+        <input type="text" name="UID" id="pay-uid" placeholder="UID লিখুন" required>
+      </div>
+      <div class="input-group">
+        <label>টাকা পাঠানোর এমাউন্ট</label>
+        <input type="text" name="Amount" id="pay-amount" placeholder="যেমনঃ 90" required>
+      </div>
+      <div class="input-group">
+        <label>TrxID (বিকাশ থেকে প্রাপ্ত ট্রানজেকশন আইডি)</label>
+        <input type="text" name="TrxID" id="trxid" placeholder="TrxID লিখুন" required>
+      </div>
+      <button class="btn" type="submit">সাবমিট করুন</button>
+    </form>
+  </div>
+</div><script>
+  const products = [
+  { name: 'Weekly Lite', price: 45, img: 'https://via.placeholder.com/200x120?text=Weekly+Lite' },
+  { name: 'Weekly', price: 152, img: 'https://via.placeholder.com/200x120?text=Weekly' },
+  { name: 'Weekly 2 Pis', price: 304, img: 'https://via.placeholder.com/200x120?text=Weekly+2+Pis' },
+  { name: 'Monthly', price: 765, img: 'https://via.placeholder.com/200x120?text=Monthly' },
+  { name: '25 Diamonds', price: 25, img: 'https://via.placeholder.com/200x120?text=25+Diamonds' },
+  { name: '50 Diamonds', price: 40, img: 'https://via.placeholder.com/200x120?text=50+Diamonds' },
+  { name: '115 Diamonds', price: 77, img: 'https://via.placeholder.com/200x120?text=115+Diamonds' },
+  { name: '240 Diamonds', price: 152, img: 'https://via.placeholder.com/200x120?text=240+Diamonds' },
+  { name: '355 Diamonds', price: 230, img: 'https://via.placeholder.com/200x120?text=355+Diamonds' },
+  { name: '480 Diamonds', price: 304, img: 'https://via.placeholder.com/200x120?text=480+Diamonds' },
+  { name: '610 Diamonds', price: 385, img: 'https://via.placeholder.com/200x120?text=610+Diamonds' },
+  { name: '725 Diamonds', price: 462, img: 'https://via.placeholder.com/200x120?text=725+Diamonds' },
+  { name: '850 Diamonds', price: 535, img: 'https://via.placeholder.com/200x120?text=850+Diamonds' },
+  { name: '1090 Diamonds', price: 685, img: 'https://via.placeholder.com/200x120?text=1090+Diamonds' },
+  { name: '1240 Diamonds', price: 770, img: 'https://via.placeholder.com/200x120?text=1240+Diamonds' },
+  { name: '2530 Diamonds', price: 1530, img: 'https://via.placeholder.com/200x120?text=2530+Diamonds' },
+  { name: '5060 Diamonds', price: 3060, img: 'https://via.placeholder.com/200x120?text=5060+Diamonds' },
+  { name: '7590 Diamonds', price: 4590, img: 'https://via.placeholder.com/200x120?text=7590+Diamonds' },
+  { name: '10120 Diamonds', price: 6120, img: 'https://via.placeholder.com/200x120?text=10120+Diamonds' },
+  { name: '12650 Diamonds', price: 7650, img: 'https://via.placeholder.com/200x120?text=12650+Diamonds' },
+  { name: 'Level Up Pass', price: 154, img: 'https://via.placeholder.com/200x120?text=Level+Up+Pass' },
+  { name: 'Evo Access (3D)', price: 65, img: 'https://via.placeholder.com/200x120?text=Evo+Access+3D' },
+  { name: 'Evo Access (7D)', price: 95, img: 'https://via.placeholder.com/200x120?text=Evo+Access+7D' },
+  { name: 'Evo Access (30D)', price: 290, img: 'https://via.placeholder.com/200x120?text=Evo+Access+30D' }
+];
+
+  let cart = [];
+  let selectedProduct = null;
+
+  function submitUID() {
+    const uid = document.getElementById('uid-input').value;
+    if (uid.trim() === '') {
+      alert('UID দিন');
+      return;
+    }
+    document.getElementById('uid-form').classList.remove('active');
+    document.getElementById('products').classList.add('active');
+    loadProducts();
+  }
+
+  function loadProducts() {
+    const list = document.getElementById('product-list');
+    list.innerHTML = '';
+    products.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'product';
+      div.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h4>${p.name}</h4>
+        <p>৳${p.price}</p>
+        <button class="btn" onclick="buy('${p.name}', ${p.price})">Buy Now</button>
+        <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function buy(name, price) {
+    selectedProduct = { name, price };
+    document.getElementById('products').classList.remove('active');
+    document.getElementById('payment').classList.add('active');
+    document.getElementById('pay-amount').value = price;
+    document.getElementById('pay-uid').value = document.getElementById('uid-input').value;
+  }
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    alert(`${name} কার্টে যোগ হয়েছে!`);
+  }
+
+  function showCart() {
+    document.getElementById('products').classList.remove('active');
+    document.getElementById('cart').classList.add('active');
+
+    const cartBox = document.getElementById('cart-items');
+    cartBox.innerHTML = '';
+    if (cart.length === 0) {
+      cartBox.innerHTML = '<p>কার্ট খালি</p>';
+      return;
+    }
+    cart.forEach(item => {
+      const p = document.createElement('p');
+      p.textContent = `${item.name} - ৳${item.price}`;
+      cartBox.appendChild(p);
+    });
+  }
+
+  function goBack() {
+    document.getElementById('cart').classList.remove('active');
+    document.getElementById('products').classList.add('active');
+  }
+
+  function copyBkash() {
+    navigator.clipboard.writeText('01829262412');
+    alert('বিকাশ নাম্বার কপি হয়েছে!');
+  }
+</script></body>
+</html>
